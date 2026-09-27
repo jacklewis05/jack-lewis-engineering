@@ -35,13 +35,13 @@ import {
 ============================================================================ */
 
 export const PROFILE = {
-  name: "Jack Lewis",
+  name: "John Lewis",
   title: "Mechanical Design, Mechatronics, and Biomechanics",
   status: "BUILDING // UVA MECH-E + EE MINOR, '28",
   location: "Charlottesville, VA",
   headshot: "/images/site/headshot.jpg",
   bio: "I'm a mechanical engineering student at the University of Virginia, minoring in electrical engineering. I love turning ideas into physical things, from impact test rigs and race car chassis parts to small mechatronic gadgets. When I'm not in class or in the shop, you'll find me skiing, training for triathlons, or surfing.",
-  email: "jack@arachnerd.com",
+  email: "jalewis434@gmail.com",
   linkedin: "https://www.linkedin.com/in/johnlewis05",
   github: "https://github.com/jacklewis05",
   resume: "/resume/John_Lewis_Resume.pdf",
@@ -91,7 +91,7 @@ export const EXPERIENCE = [
     id: "motorsports",
     org: "Virginia Motorsports",
     role: "Chassis Team Member",
-    dates: "Aug 2024 — Present",
+    dates: "Aug 2024 — May 2026",
     tag: "Mechanical / Manufacturing",
     summary:
       "Designing, analyzing, and manufacturing chassis components for UVA's Formula SAE car.",
