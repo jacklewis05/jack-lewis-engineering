@@ -43,7 +43,6 @@ export const PROFILE = {
   bio: "I'm a mechanical engineering student at the University of Virginia, minoring in electrical engineering. I love turning ideas into physical things, from impact test rigs and race car chassis parts to small mechatronic gadgets. When I'm not in class or in the shop, you'll find me skiing, training for triathlons, or surfing.",
   email: "jalewis434@gmail.com",
   linkedin: "https://www.linkedin.com/in/johnlewis05",
-  github: "https://github.com/jacklewis05",
   resume: "/resume/John_Lewis_Resume.pdf",
   contactHeadline:
     "Working on something in mechanical design or mechatronics? Let's talk.",
