@@ -55,3 +55,37 @@ export function GridBackground({ opacity = "opacity-40" }) {
     />
   );
 }
+
+// "Torso and shoulder surrogate" -> "torso-and-shoulder-surrogate"
+// Used for the section links on project pages.
+export function slugify(text) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+// Scrolls to a section heading on a project page. Photos above the heading
+// load lazily and would push it down mid-scroll, so this loads them first.
+export function scrollToSection(slug) {
+  const el = document.getElementById(`sec-${slug}`);
+  if (!el) return;
+  const above = [...document.querySelectorAll("article img")].filter(
+    (img) => img.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING
+  );
+  const pending = above
+    .filter((img) => !img.complete)
+    .map((img) => {
+      img.loading = "eager";
+      return new Promise((resolve) => {
+        img.addEventListener("load", resolve, { once: true });
+        img.addEventListener("error", resolve, { once: true });
+      });
+    });
+  if (pending.length === 0) {
+    el.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+  el.scrollIntoView();
+  Promise.all(pending).then(() => el.scrollIntoView({ behavior: "smooth" }));
+}

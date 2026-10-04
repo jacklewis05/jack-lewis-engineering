@@ -40,7 +40,7 @@ export const PROFILE = {
   status: "BUILDING // UVA MECH-E + EE MINOR, '28",
   location: "Charlottesville, VA",
   headshot: "/images/site/headshot.jpg",
-  bio: "I'm a mechanical engineering student at the University of Virginia, minoring in electrical engineering. I love turning ideas into physical things, from impact test rigs and race car chassis parts to small mechatronic gadgets. When I'm not in class or in the shop, you'll find me skiing, training for triathlons, or surfing.",
+  bio: "I'm a mechanical engineering student at the University of Virginia, minoring in electrical engineering. I love turning ideas into physical things, from impact test rigs and race car chassis parts to small mechatronic gadgets. When I'm not in class or in the shop, you'll find me skiing, training for triathlons, or mountain biking.",
   email: "jalewis434@gmail.com",
   linkedin: "https://www.linkedin.com/in/johnlewis05",
   resume: "/resume/John_Lewis_Resume.pdf",
@@ -51,7 +51,8 @@ export const PROFILE = {
 /* ----------------------------------------------------------------------------
    EXPERIENCE — the vertical timeline. Most recent first.
    `summary` is always visible; `details` show when someone clicks
-   "View details".
+   "View details". `projects` (optional) lists project ids to link to, so
+   an interviewer can jump from the role straight to the work.
 ---------------------------------------------------------------------------- */
 export const EXPERIENCE = [
   {
@@ -69,6 +70,7 @@ export const EXPERIENCE = [
       "Conducted instrumented helmet testing using VICON motion capture, Hybrid III sensors, load cells, and DAS, measuring linear and rotational acceleration and velocity during impact.",
       "Processed and visualized experimental data in MATLAB, compared head-response metrics across test configurations, and presented findings to faculty.",
     ],
+    projects: ["helmet-impact-rigs"],
     stack: ["SolidWorks", "FEA", "MATLAB", "VICON", "Hybrid III", "3D Printing"],
   },
   {
@@ -85,6 +87,7 @@ export const EXPERIENCE = [
       "Train new members in SolidWorks, prototyping, and mechanical design practices to increase participation in club projects.",
     ],
     stack: ["SolidWorks", "Arduino", "C/C++", "Stepper Motors", "Prototyping"],
+    projects: ["feather-pen-clock", "button-game"],
   },
   {
     id: "motorsports",
@@ -115,14 +118,20 @@ export const EXPERIENCE = [
      category    small label in the card's top-right corner
      description 2-3 sentence summary on the card and at the top of the page
      stack       tools/skills shown as little tags
+     cover       (optional) a big photo at the top of the project page:
+                   cover: { image: "/images/folder/photo.jpg", caption: "..." },
      content     the full write-up page, top to bottom. Each line is one of:
                    "A paragraph of text.",
                    { heading: "A section title" },
                    { image: "/images/folder/photo.jpg", caption: "optional" },
                    { video: "/images/folder/clip.mp4", caption: "optional" },
                    { images: [ { src: "...", caption: "..." }, ... ] },  <- photos side by side
+                     (photos get cropped to the same shape; add  fit: "contain"
+                      after the ] to show each image whole, e.g. for CAD or tables)
                    { list: [ "point one", "point two" ] },
                  Leave content as [] and the page shows "Updates coming soon."
+                 Every heading also shows up in the "Jump to" links at the
+                 top of the page, and each one has its own shareable link.
 ---------------------------------------------------------------------------- */
 
 export const ONGOING_PROJECTS = [
@@ -169,9 +178,76 @@ export const ONGOING_PROJECTS = [
     period: "May 2026 — Present",
     category: "Research",
     description:
-      "Designing an inverted-pendulum rig that simulates rider rotation at up to 12.2 m/s, two drop towers for comparing international helmet standards, and a 3D-printed shoulder surrogate for a Hybrid III head form.",
-    stack: ["SolidWorks", "FEA", "MATLAB", "VICON"],
-    content: [],
+      "Designing and building drop towers, an elastic-cord inverted pendulum, and a 3D printed torso surrogate to compare how international motorcycle helmet standards test the same helmet, and to test across a wider range of speeds and impact angles than any one standard covers.",
+    stack: ["SolidWorks", "ANSYS Mechanical", "MATLAB", "3D Printing", "Hybrid III"],
+    cover: {
+      image: "/images/cab-helmet-rigs/hero-oblique-helmet.jpg",
+      caption: "Hybrid III head and neck with a helmet, set up for an oblique impact",
+    },
+    content: [
+      { heading: "The problem" },
+      "Most motorcycle helmet standards test a helmet at one fairly low speed, around 30 km/h. Real crashes don't look like that. Most of them are oblique, and they happen across a much wider range of speeds. Each standard (USDOT FMVSS 218, ECE 22.06, FIM FRHPhe-02, SHARP, Snell 2025 and Certimoov) also sets up its test a little differently, which makes it hard to compare how the same helmet would do from one standard to the next.",
+      { heading: "My approach" },
+      "I'm designing and building test rigs that can run the same helmet through the conditions each standard uses, then push past them to higher speeds and more impact angles. The work follows a design, analysis, build, test loop: CAD in SolidWorks, FEA in ANSYS Mechanical, 3D printed and machined parts, and a Hybrid III 50th percentile male head and neck as the test dummy.",
+
+      { heading: "Drop towers" },
+      "The study uses two drop towers: a guided monorail tower that can drop onto a flat anvil or a 45° oblique anvil, and a new free-fall tower.",
+      { images: [
+        { src: "/images/cab-helmet-rigs/drop-tower-cad-1.jpg", caption: "Monorail drop tower CAD" },
+        { src: "/images/cab-helmet-rigs/drop-tower-cad-2.jpg", caption: "New free-fall tower CAD" },
+      ], fit: "contain" },
+      "Whether the headform is guided or falling freely at impact matters more than it sounds. In a guided drop the headform stays attached to the drop assembly, which limits how much it can rotate when it hits an angled anvil. In free fall it can rotate however the impact pushes it. Standards don't agree on which to use, so I wanted to be able to run both on the same tower and compare them directly.",
+      { image: "/images/cab-helmet-rigs/monorail-configs.png", caption: "Monorail tower: oblique guided free fall (left) vs. flat guided fixed (right)" },
+      "To do that, I designed a 3D printed guided free-fall \"basket\". It hot-swaps onto the head drop assembly and fits around the 5 inch oblique anvil, so the helmeted headform can be guided most of the way down and then meet the anvil without the drop assembly holding it in place.",
+      { image: "/images/cab-helmet-rigs/basket-cad.png", caption: "Free-fall basket CAD" },
+      { image: "/images/cab-helmet-rigs/basket-printed.jpg", caption: "Printed basket holding a helmet" },
+
+      { heading: "Inverted pendulum" },
+      "Gravity alone has a ceiling. Swinging from an arm about 8 ft long only gets the head to around 7 to 8.5 m/s, and I wanted to reach about 12 m/s. So the pendulum is powered by elastic cord instead of just gravity.",
+      { image: "/images/cab-helmet-rigs/pendulum-sketch.png", caption: "Early hand sketch of the pendulum concept" },
+      "The frame is aluminum T-slot extrusion and square tube. A slot and sleeve system lets the arm height be adjusted, the bearings and bearing holders sit on the outside of the arm, gussets inside the sleeve absorb impact force, and the pivot point is fixed. A backplate holds the elastic cord and the drop mechanism.",
+      { image: "/images/cab-helmet-rigs/pendulum-cad.jpg", caption: "Pendulum CAD: slot and sleeve arm, external bearings, gussets" },
+
+      { heading: "Torso and shoulder surrogate" },
+      "A real rider's shoulders change how the head moves in a crash, and a bare head and neck can't capture that. I designed a 3D printed torso and shoulder surrogate that attaches to the Hybrid III neck and acts as a spacer between the neck and the pendulum's rectangular tubing. To get its mass properties close to a real person, I used the THUMS AM50 pedestrian finite element model to estimate the torso's center of gravity and inertia.",
+      { image: "/images/cab-helmet-rigs/torso-on-neck.png", caption: "Torso CAD on the Hybrid III neck" },
+      "The torso is 10.7 x 19.8 x 5.7 in, so I split it into two parts to fit on the build plate. It's printed with 8 wall loops and gyroid infill and mounts to a waterjet aluminum base plate. The full print takes about 3.8 kg of filament and over a week of print time, so cost and printability mattered as much as strength.",
+      { images: [
+        { src: "/images/cab-helmet-rigs/torso-model.jpg", caption: "Torso model" },
+        { src: "/images/cab-helmet-rigs/torso-slicer.jpg", caption: "Sliced as two plates" },
+      ], fit: "contain" },
+      "To pick the filament, I scored PETG-CF, TPU, PC, PAHT-CF, PA6-CF and CoPA in a weighted decision matrix on impact resistance, durability, biofidelity, ease of printing and cost. TPU came out on top, mainly on impact resistance and biofidelity.",
+      { image: "/images/cab-helmet-rigs/filament-options.png", caption: "Filament options considered" },
+      { image: "/images/cab-helmet-rigs/decision-matrix.png", caption: "Weighted decision matrix" },
+
+      { heading: "FEA" },
+      "Before anything gets machined, I checked the pendulum structure in ANSYS Mechanical under a 50 G load and made machine-shop drawings for the parts. At 50 G, the maximum deformation was about 4 mm and the maximum von Mises stress was about 7 MPa.",
+      { image: "/images/cab-helmet-rigs/fea-mesh.jpg", caption: "ANSYS mesh of the pendulum frame" },
+      { image: "/images/cab-helmet-rigs/fea-deformation.png", caption: "Total deformation at 50 G" },
+      { image: "/images/cab-helmet-rigs/fea-stress.png", caption: "Von Mises stress at 50 G" },
+
+      { heading: "Testing" },
+      "The test matrix covers each standard's conditions plus higher speeds:",
+      { list: [
+        "Flat impacts at 6, 7.5 and 8.2 m/s, each tied to a specific standard, plus one high-speed run near 12 m/s.",
+        "Oblique impacts on the 45° anvil at 5, 8 and 8.5 m/s, plus a high-speed run. 30° and 60° anvil angles are also under consideration.",
+      ] },
+      "The headform carries a triaxial accelerometer and an angular rate sensor. There is also a load cell under the anvil, an accelerometer on the mounting plate, and a velocity gate. From those, we pull peak linear acceleration, peak rotational acceleration, HIC (Head Injury Criterion) and BrIC (Brain Injury Criterion).",
+      { images: [
+        { src: "/images/cab-helmet-rigs/with-adaptor.jpg", caption: "Head and neck with the adaptor" },
+        { src: "/images/cab-helmet-rigs/no-adaptor.jpg", caption: "Head and neck without the adaptor" },
+      ] },
+      { images: [
+        { src: "/images/cab-helmet-rigs/orientation-oblique.jpg", caption: "Oblique orientation" },
+        { src: "/images/cab-helmet-rigs/orientation-side.jpg", caption: "Side orientation" },
+        { src: "/images/cab-helmet-rigs/orientation-front.jpg", caption: "Front orientation" },
+        { src: "/images/cab-helmet-rigs/orientation-rear.jpg", caption: "Rear orientation" },
+      ] },
+
+      { heading: "Next steps" },
+      "I've also proposed an LS-DYNA simulation of guided vs. free-fall oblique impacts, to compare against what we measure on the towers.",
+      // TODO: add a "Results" section here once you have test results to share.
+    ],
   },
 ];
 

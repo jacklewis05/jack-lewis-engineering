@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { EXPERIENCE } from "../content";
+import { EXPERIENCE, ONGOING_PROJECTS, COMPLETED_PROJECTS } from "../content";
+
+const ALL_PROJECTS = [...ONGOING_PROJECTS, ...COMPLETED_PROJECTS];
 import { SectionHeader, Tag, GridBackground } from "./shared";
 
 function TimelineItem({ item, isLast }) {
   const [expanded, setExpanded] = useState(false);
+  const related = (item.projects ?? [])
+    .map((id) => ALL_PROJECTS.find((p) => p.id === id))
+    .filter(Boolean);
 
   return (
-    <div className="relative pl-10 md:pl-14">
+    <div className="relative pb-10 pl-10 md:pl-14">
       {!isLast && (
         <span className="absolute bottom-[-2.5rem] left-[7px] top-6 w-px bg-[var(--line)] md:left-[11px]" />
       )}
@@ -15,7 +20,7 @@ function TimelineItem({ item, isLast }) {
 
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="group w-full pb-10 text-left"
+        className="group w-full text-left"
       >
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span className="font-mono text-xs uppercase tracking-widest text-[var(--muted)]">
@@ -70,6 +75,24 @@ function TimelineItem({ item, isLast }) {
           {expanded ? "Hide details" : "View details"}
         </span>
       </button>
+
+      {related.length > 0 && (
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--muted)]">
+            See the work:
+          </span>
+          {related.map((p) => (
+            <a
+              key={p.id}
+              href={`#project/${p.id}`}
+              className="font-mono inline-flex items-center gap-1 border border-[var(--line)] px-2 py-1 text-[11px] text-[var(--accent)] transition-colors hover:border-[var(--accent)] hover:text-[var(--accent-bright)]"
+            >
+              {p.title}
+              <ArrowUpRight size={12} />
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
