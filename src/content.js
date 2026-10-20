@@ -143,8 +143,8 @@ export const ONGOING_PROJECTS = [
     period: "",
     category: "Robotics",
     description:
-      "A compact robotic arm driven by stepper motors, with a cycloidal gearbox I designed and 3D printed in each joint. Right now I'm working on the drive design to reduce friction between the discs and the ring housing.",
-    stack: ["SolidWorks", "Cycloidal Drives", "3D Printing", "Stepper Motors", "MT6701 Encoders"],
+      "A compact robotic arm driven by stepper motors, with a cycloidal gearbox I designed and 3D printed in each joint. The first drive now turns freely with lathe-turned brass sleeves on the output pins, and it homes reliably with a hall sensor and an ESP32.",
+    stack: ["SolidWorks", "Cycloidal Drives", "3D Printing", "Lathe", "ESP32", "PlatformIO", "A4988", "MT6701 Encoders"],
     content: [
       // ---- Progress log: add new updates at the bottom as the project moves along ----
       "I'm building a small stepper-motor-driven robotic arm, and instead of buying gearboxes for the joints I'm designing my own cycloidal drives from scratch. My main goal is to keep the arm as sleek and compact as possible. That goal drives most of my decisions, from the gearbox layout to where the sensors go.",
@@ -163,11 +163,25 @@ export const ONGOING_PROJECTS = [
       { image: "/images/robotic-arm/disc-stack.png", caption: "Two-disc stack with the output pins" },
       { heading: "First print" },
       { image: "/images/robotic-arm/discs-slicer.jpg", caption: "Two cycloidal discs in the slicer, about 2 h 20 min to print" },
-      "The first print had a lot of friction between the discs and the ring housing. I added clearance around the output pins, which helped but didn't fix it. I also suspect the output bearing is pressing against the cycloidal discs and adding to the friction.",
-      { heading: "Next iteration" },
-      "Before I print another full version, I plan to shrink the generating circle radius from 35 mm to 32.5 mm and lower the reduction to around 20:1 or 25:1. That should give the discs more room to move without binding. Then I'll print it and test again.",
+      "The first print had a lot of friction between the discs and the ring housing. I added clearance around the output pins, which helped but didn't fix it. I also suspected the output bearing was pressing against the cycloidal discs and adding to the friction.",
+      { heading: "Fixing the friction" },
+      "To cut down on sliding friction at the output pins, I put brass tube sleeves over them so they roll inside the holes in the discs instead of rubbing. My first batch of sleeves was cut with a hacksaw, which left them all slightly different lengths. The longer ones were getting compressed against the 3D printed housing, and that was enough to make the whole drive seize up.",
+      "I turned the sleeves on the lathe to get them all to the same length, and the drive stopped seizing. While I was at it, I went back through the assembly and made sure the only parts touching were bearing faces, so nothing printed rubs against anything else as it turns.",
+      // Photo of the lathe work goes here. Put it in public/images/robotic-arm/ and uncomment:
+      // { image: "/images/robotic-arm/lathe.jpg", caption: "Turning the brass output pin sleeves to length on the lathe" },
+      "I kept the original geometry through all of this. The generating circle radius is still 35 mm and the reduction is still 29:1. I had been planning to shrink the drive and lower the ratio, but it turned out the friction was coming from the sleeves and part contact, not the profile.",
+      "I also have access to a mill and a water jet, so machining the cycloidal discs out of aluminum is an option I'm considering for later versions.",
       { heading: "Sensing and control" },
-      "Each joint will be driven by a stepper motor through one of these gearboxes. For position feedback, I'm putting MT6701 magnetic encoders directly on the motor shafts. I considered a second encoder on the output side of each gearbox, but centering it and fitting it inside the joint would have made the joint bulkier, which works against keeping the arm slim. For homing at startup, I'm planning to use a hall sensor.",
+      "Each joint is driven by a NEMA 17 stepper through one of these gearboxes. The stepper runs off an A4988 driver set to 1/16 microstepping, and everything is controlled by an ESP32 that I program in VS Code with PlatformIO.",
+      "For position feedback, I put an MT6701 magnetic encoder directly on the motor shaft. I considered a second encoder on the output side of each gearbox, but centering it and fitting it inside the joint would have made the joint bulkier, which works against keeping the arm slim. Because the encoder sits before the reduction, it also gets 29 times the resolution at the output.",
+      { heading: "Homing" },
+      "A motor-side encoder knows how far the shaft has turned, but not where the arm is when it powers on. To fix that, I mounted a hall sensor at the top of the drive and put a magnet on the output arm. At startup, the ESP32 turns the joint until the hall sensor picks up the magnet and sets that position as zero. I tested this on a breadboard setup and it homes reliably.",
+      // Homing test photos/video go here. Put them in public/images/robotic-arm/ and uncomment:
+      // { images: [
+      //   { src: "/images/robotic-arm/homing-setup.jpg", caption: "Homing test setup" },
+      //   { src: "/images/robotic-arm/breadboard.jpg", caption: "ESP32, A4988 and sensors on the breadboard" },
+      // ] },
+      // { video: "/images/robotic-arm/homing.mp4", caption: "Homing to the hall sensor" },
     ],
   },
   {
