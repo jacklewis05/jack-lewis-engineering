@@ -167,8 +167,7 @@ export const ONGOING_PROJECTS = [
       { heading: "Fixing the friction" },
       "To cut down on sliding friction at the output pins, I put brass tube sleeves over them so they roll inside the holes in the discs instead of rubbing. My first batch of sleeves was cut with a hacksaw, which left them all slightly different lengths. The longer ones were getting compressed against the 3D printed housing, and that was enough to make the whole drive seize up.",
       "I turned the sleeves on the lathe to get them all to the same length, and the drive stopped seizing. While I was at it, I went back through the assembly and made sure the only parts touching were bearing faces, so nothing printed rubs against anything else as it turns.",
-      // Photo of the lathe work goes here. Put it in public/images/robotic-arm/ and uncomment:
-      // { image: "/images/robotic-arm/lathe.jpg", caption: "Turning the brass output pin sleeves to length on the lathe" },
+      { image: "/images/robotic-arm/lathe.jpg", caption: "Turning the brass output pin sleeves to length on the lathe" },
       "I kept the original geometry through all of this. The generating circle radius is still 35 mm and the reduction is still 29:1. I had been planning to shrink the drive and lower the ratio, but it turned out the friction was coming from the sleeves and part contact, not the profile.",
       "I also have access to a mill and a water jet, so machining the cycloidal discs out of aluminum is an option I'm considering for later versions.",
       { heading: "Sensing and control" },
@@ -176,12 +175,9 @@ export const ONGOING_PROJECTS = [
       "For position feedback, I put an MT6701 magnetic encoder directly on the motor shaft. I considered a second encoder on the output side of each gearbox, but centering it and fitting it inside the joint would have made the joint bulkier, which works against keeping the arm slim. Because the encoder sits before the reduction, it also gets 29 times the resolution at the output.",
       { heading: "Homing" },
       "A motor-side encoder knows how far the shaft has turned, but not where the arm is when it powers on. To fix that, I mounted a hall sensor at the top of the drive and put a magnet on the output arm. At startup, the ESP32 turns the joint until the hall sensor picks up the magnet and sets that position as zero. I tested this on a breadboard setup and it homes reliably.",
-      // Homing test photos/video go here. Put them in public/images/robotic-arm/ and uncomment:
-      // { images: [
-      //   { src: "/images/robotic-arm/homing-setup.jpg", caption: "Homing test setup" },
-      //   { src: "/images/robotic-arm/breadboard.jpg", caption: "ESP32, A4988 and sensors on the breadboard" },
-      // ] },
-      // { video: "/images/robotic-arm/homing.mp4", caption: "Homing to the hall sensor" },
+      { image: "/images/robotic-arm/homing-setup.jpg", caption: "Homing test setup: the drive with its output arm, and the ESP32 and A4988 on the breadboard" },
+      "Once it's homed, I can send the joint to an angle from the serial monitor. In the video below I start the homing routine, let it find the magnet, then type G50 to send the arm to 50 degrees.",
+      { video: "/images/robotic-arm/homing.mp4", caption: "Homing to the hall sensor, then a G50 command to move to 50°" },
     ],
   },
   {
