@@ -334,7 +334,7 @@ export const COMPLETED_PROJECTS = [
           "Output capacitor (C3): The load draws (12 − 2 V) / 2.2 kΩ ≈ 4.55 mA. Holding the ripple under 1% (0.12 V) over a 2 ms period needs at least 75.8 µF, so we used 100 µF.",
         ] },
         { heading: "Inductor Energy" },
-        "The key question was whether the 33 mH inductor could store enough energy each cycle to power the load. At the 500 Hz operating point the switch is on for about 1.61 ms of each 2 ms period (an 80.6% duty cycle). I modeled the MOSFET's on-state drop with the course's transistor equation, which gave about 0.23 V, and used the inductor's measured 53 Ω winding resistance.",
+        "The key question was whether the 33 mH inductor could store enough energy each cycle to power the load. At the 500 Hz operating point the switch is on for about 1.61 ms of each 2 ms period (an 80.6% duty cycle). We modeled the MOSFET's on-state drop with the course's transistor equation, which gave about 0.23 V, and used the inductor's measured 53 Ω winding resistance.",
         "Applying KVL around the loop while the switch is on gives a first-order differential equation for the inductor current. Its solution rises exponentially toward its final value with a time constant of L/R ≈ 0.62 ms, reaching a peak of about 83.3 mA by the end of the on-time.",
         { list: [
           "Energy stored in the inductor each cycle: ½LI² ≈ 114.4 µJ",
