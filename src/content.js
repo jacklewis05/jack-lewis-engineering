@@ -164,6 +164,7 @@ export const ONGOING_PROJECTS = [
         "Number of ring pins (N): 30, which gives a 29:1 reduction",
       ] },
       { image: "/images/robotic-arm/disc-sketch.png", caption: "Cycloidal disc sketch: six Ø6.60 mm output holes on a Ø40 mm circle around a Ø28.10 mm center bore" },
+      "The brass sleeves on the output pins are 5 mm in outer diameter, so I sized the output holes in the discs to 6.6 mm. That is the sleeve diameter plus twice the 0.8 mm eccentricity, which lets each sleeve roll around the inside of its hole as the disc wobbles without binding.",
       "The output is supported by two 50 × 65 × 7 mm bearings, one on each side of the ring housing.",
       { image: "/images/robotic-arm/drive-exploded.png", caption: "Exploded view of one drive: encoder cover and stepper motor on the left, the hall sensor mount on top of the ring housing, and the output plate on the right" },
       "The section view shows how it all stacks up. The motor shaft drives an eccentric input shaft that is held by a small bearing at each end. Each cycloidal disc rides on its own bearing on the eccentric, and the output pins, with their brass sleeves, pass through both discs and tie the two sides of the output together.",
