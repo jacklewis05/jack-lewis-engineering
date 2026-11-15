@@ -144,7 +144,7 @@ export const ONGOING_PROJECTS = [
     period: "",
     category: "Robotics",
     description:
-      "A compact robotic arm driven by stepper motors, with a cycloidal gearbox I designed and 3D printed in each joint. The first drive now turns freely with lathe-turned brass sleeves on the output pins, and it homes reliably with a hall sensor and an ESP32. I'm now using the arm for light painting, with a program that turns 3D models and images into paths for it to draw.",
+      "A compact robotic arm driven by stepper motors, with a cycloidal gearbox I designed and 3D printed in each joint. The first drive now turns freely with lathe-turned brass sleeves on the output pins, and it homes reliably with a hall sensor and an ESP32. My goal is to use the arm for light painting, and I've built a program that turns 3D models and images into paths for it to draw.",
     stack: ["SolidWorks", "Cycloidal Drives", "3D Printing", "Lathe", "ESP32", "PlatformIO", "A4988", "MT6701 Encoders", "Python", "OpenCV", "Three.js"],
     content: [
       // ---- Progress log: add new updates at the bottom as the project moves along ----
@@ -188,11 +188,7 @@ export const ONGOING_PROJECTS = [
       "Once it's homed, I can send the joint to an angle from the serial monitor. In the video below I start the homing routine, let it find the magnet, then type G50 to send the arm to 50 degrees.",
       { video: "/images/robotic-arm/homing.mp4", caption: "Homing to the hall sensor, then a G50 command to move to 50°" },
       { heading: "Light painting" },
-      "With all three joints moving, I started using the arm for light painting. An LED on the end of the arm traces a shape while a camera takes a long exposure, so the path shows up in the photo as glowing lines.",
-      { images: [
-        { src: "/images/robotic-arm/light-painting-octahedron-1.jpg", caption: "Octahedron light painting" },
-        { src: "/images/robotic-arm/light-painting-octahedron-2.jpg", caption: "The same octahedron from a different angle" },
-      ] },
+      "What I'm working toward is using the arm for light painting. An LED on the end of the arm traces a shape while a camera takes a long exposure, so the path shows up in the photo as glowing lines.",
       "Programming every path by hand doesn't scale, so I built a program that takes a 3D model or an image, turns it into paths, and drives the arm to draw them. It runs on my laptop as a Python server with a 3D viewer in the browser, built with three.js. It works a lot like a slicer for a 3D printer: I can see the whole drawing before the arm moves, then watch it happen live.",
       { image: "/images/robotic-arm/viewer-octahedron.jpg", caption: "The viewer: the arm model, the planned octahedron in its LED colours, and the settings panel" },
       { heading: "Paths from models and images" },
@@ -214,7 +210,7 @@ export const ONGOING_PROJECTS = [
       { heading: "Animation" },
       "Because the drawing can be rotated between exposures, the program can also make stop-motion animations. It draws a shape, waits for me to take the photo, then draws it again turned a few degrees further. Played back in order, the photos show the shape spinning.",
       { heading: "Next steps" },
-      "So far the new software has only been tested against a simulated arm. Next I'm measuring the real link lengths, running it on the hardware, and tuning the speed limits for each joint. I also want the ESP32 to trigger the camera shutter, so a whole animation can run without me standing at the camera.",
+      "So far the new software has only been tested against a simulated arm. Next I'm measuring the real link lengths, running it on the hardware, tuning the speed limits for each joint, and taking the first real light painting. I also want the ESP32 to trigger the camera shutter, so a whole animation can run without me standing at the camera.",
     ],
   },
   {
