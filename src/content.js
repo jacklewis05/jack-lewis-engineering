@@ -422,14 +422,15 @@ export const ONGOING_PROJECTS = [
     period: "Fall 2026",
     category: "Audio / Woodworking",
     description:
-      "A pair of floor-standing speakers for my living room, built around Paul Carmody's TriTrix MTM transmission-line design. I modeled my own version of the cabinet in Fusion 360 with a solid walnut front baffle, and I've CNC-routed the front baffle and cut the MDF cabinet panels.",
+      "A pair of floor-standing speakers for my living room, and a way to build my woodworking and CAM skills after training in UVA's architecture wood shop. They're built around Paul Carmody's TriTrix MTM transmission-line design. I modeled my own version of the cabinet in Fusion 360 with a solid walnut front baffle, and I've CNC-routed the front baffle and cut the MDF cabinet panels.",
     stack: ["Fusion 360", "CNC Router", "CAM", "Woodworking", "Transmission Line", "MTM"],
     cover: {
       image: "/images/tower-speakers/baffle.jpg",
       caption: "The walnut front baffle straight off the CNC, with the driver recesses cut",
     },
     content: [
-      "I wanted a good pair of tower speakers for my living room without spending much, and I wanted to build them myself. I listen to a lot of house music, so bass extension mattered more than it would for a typical bookshelf pair. They'll be driven by my Yamaha RX-396 receiver.",
+      "My living room desperately needed a better sound system, and I had just been trained in the wood shop at UVA's School of Architecture. I couldn't think of a better way to build up my woodworking and CAM skills than making a pair of DIY speakers.",
+      "I wanted them to sound good without costing much. I listen to a lot of house music, so bass extension mattered more than it would for a typical bookshelf pair. They'll be driven by my Yamaha RX-396 receiver.",
       { heading: "Choosing the design" },
       "I looked at designing a speaker completely from scratch, but getting a crossover right takes measurement gear and several rounds of revisions. I went with the TriTrix MTM TL, a proven kit design by Paul Carmody, so I could focus my time on the cabinet. It's an MTM layout, with a woofer above and below the tweeter, which gives more output than a single woofer. The two woofers are wired in series for a nominal 8 Ω load, which the receiver handles comfortably.",
       "The cabinet is a tapered transmission line: the back wave from the woofers travels down a folded path inside the tower before it exits near the floor. That gets deeper bass out of small woofers than a sealed box of the same size would.",
@@ -447,9 +448,9 @@ export const ONGOING_PROJECTS = [
       { image: "/images/tower-speakers/parts.jpg", caption: "The walnut baffle and cut MDF panels, ready for assembly" },
       { heading: "Next steps" },
       { list: [
-        "Glue up the cabinets and line the transmission line with damping material.",
+        "Assemble the cabinets and line the transmission line with damping material.",
         "Build the crossovers and wire in the drivers.",
-        "Finish the walnut and paint the MDF.",
+        "Finish the walnut and paint the MDF a color that matches it.",
         "Measure the finished speakers and pair them with a subwoofer for the lowest bass.",
       ] },
     ],
