@@ -88,6 +88,29 @@ function Block({ block, projectId }) {
       </figure>
     );
   }
+  if (block.videos) {
+    const n = block.videos.length;
+    const cols = n === 2 || n === 4 ? "sm:grid-cols-2" : "sm:grid-cols-3";
+    return (
+      <div className={`grid grid-cols-1 gap-4 ${cols}`}>
+        {block.videos.map((vid, i) => (
+          <figure key={i}>
+            <video
+              src={asset(vid.src)}
+              poster={vid.poster ? asset(vid.poster) : undefined}
+              controls
+              playsInline
+              muted
+              loop
+              preload="metadata"
+              className="h-auto w-full border border-[var(--line)] bg-[var(--paper-dim)]"
+            />
+            <Caption text={vid.caption} />
+          </figure>
+        ))}
+      </div>
+    );
+  }
   if (block.images) {
     const n = block.images.length;
     const cols = n === 2 || n === 4 ? "sm:grid-cols-2" : "sm:grid-cols-3";

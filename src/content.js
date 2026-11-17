@@ -13,6 +13,7 @@ import {
   Waves,
   Sailboat,
   Zap,
+  Globe,
 } from "lucide-react";
 
 /* ============================================================================
@@ -88,7 +89,7 @@ export const EXPERIENCE = [
       "Train new members in SolidWorks, prototyping, and mechanical design practices to increase participation in club projects.",
     ],
     stack: ["SolidWorks", "Arduino", "C/C++", "Stepper Motors", "Prototyping"],
-    projects: ["feather-pen-clock", "button-game"],
+    projects: ["smart-globe", "feather-pen-clock", "button-game"],
   },
   {
     id: "motorsports",
@@ -126,6 +127,8 @@ export const EXPERIENCE = [
                    { heading: "A section title" },
                    { image: "/images/folder/photo.jpg", caption: "optional" },
                    { video: "/images/folder/clip.mp4", caption: "optional" },
+                   { videos: [ { src: "...", poster: "...jpg", caption: "..." }, ... ] },  <- videos side by side
+                     (good for tall phone videos)
                    { images: [ { src: "...", caption: "..." }, ... ] },  <- photos side by side
                      (photos get cropped to the same shape; add  fit: "contain"
                       after the ] to show each image whole, e.g. for CAD or tables)
@@ -211,6 +214,124 @@ export const ONGOING_PROJECTS = [
       "Because the drawing can be rotated between exposures, the program can also make stop-motion animations. It draws a shape, waits for me to take the photo, then draws it again turned a few degrees further. Played back in order, the photos show the shape spinning.",
       { heading: "Next steps" },
       "So far the new software has only been tested against a simulated arm. Next I'm measuring the real link lengths, running it on the hardware, tuning the speed limits for each joint, and taking the first real light painting. I also want the ESP32 to trigger the camera shutter, so a whole animation can run without me standing at the camera.",
+    ],
+  },
+  {
+    id: "smart-globe",
+    icon: Globe,
+    title: "Smart Globe",
+    org: "Gizmologists · UVA",
+    period: "Fall 2026",
+    category: "Mechatronics",
+    description:
+      "A 10-inch globe that turns itself to face any country you ask for. It sits on three stepper-driven omni wheels, and a kinematic model converts a target location into wheel rotations. After calibration it holds under 5° of error over 10 moves, and automatic homing with hall-effect sensors is in progress.",
+    stack: ["SolidWorks", "FEA", "Kinematics", "Omni Wheels", "Stepper Motors", "Hall-Effect Sensors", "3D Printing", "Decision Matrix"],
+    cover: {
+      image: "/images/smart-globe/cover.jpg",
+      caption: "The globe resting on its three omni wheels and the printed base",
+    },
+    content: [
+      "The Smart Globe is a Gizmologists project: you ask it for a place, like \"point to Japan\", and the globe rotates until that spot faces a fixed reference point. I worked on it with Andrew Wittman. My part was the mechanical design, CAD and FEA, and I also helped work out the kinematics.",
+      { videos: [
+        { src: "/images/smart-globe/demo-point.mp4", poster: "/images/smart-globe/demo-point.jpg", caption: "The globe rotating to a requested location" },
+        { src: "/images/smart-globe/validation.mp4", poster: "/images/smart-globe/validation.jpg", caption: "A test move after calibration" },
+      ] },
+      { heading: "Requirements" },
+      "We started by turning what the globe needed to do into specs we could actually test:",
+      { list: [
+        "Orient toward a requested country, with a target positioning error under 5°, checked with repeatable target tests.",
+        "Keep the map visible, with nothing blocking the face of the globe, checked in CAD and by eye.",
+        "Position reliably, with under 5° of error after 10 moves in a row, checked with a long-term stability test.",
+        "Reach any orientation, a full 360° × 360°, covering every latitude and longitude.",
+        "Start from a known orientation, by detecting a reference with hall-effect sensors (still in progress).",
+      ] },
+      { heading: "Gimbal or omni wheels" },
+      "There are two obvious ways to turn a ball in any direction. A gimbal turns the globe about independently driven axes, which makes positioning simple, but it needs bearings, shafts and couplings, and the rings sit in front of the map. Resting the globe on omni wheels leaves the whole surface visible, but the motion depends on friction, which adds positioning uncertainty, and the control is more complex.",
+      { images: [
+        { src: "/images/smart-globe/concept-gimbal.png", caption: "Gimbal concept" },
+        { src: "/images/smart-globe/concept-omni.png", caption: "Omni-wheel concept" },
+      ], fit: "contain" },
+      "We scored both in a weighted decision matrix. The gimbal won clearly on accuracy, but omni wheels came out ahead overall, 3.58 to 3.2, mostly on keeping the globe unobstructed and unmodified.",
+      { list: [
+        "Unobstructed globe visibility (25%): gimbal 2.5, omni wheels 5",
+        "Positioning accuracy and repeatability (25%): gimbal 5, omni wheels 2.5",
+        "No globe modifications (20%): gimbal 2, omni wheels 3",
+        "Mechanical simplicity (15%): gimbal 3, omni wheels 4",
+        "Assembly and integration (10%): gimbal 3, omni wheels 3.5",
+        "Cost and availability (5%): gimbal 3.5, omni wheels 3",
+      ] },
+      { heading: "Wheel layout" },
+      "With three omni wheels spaced 120° apart under the globe, the motor shafts can point toward the center (radial) or along the edge (tangential). We based the two options on the Type A and Type B chassis layouts from Deng and Meng (2025) and picked Type A as the better fit for a globe.",
+      { images: [
+        { src: "/images/smart-globe/layout-type-a.png", caption: "Type A: radial motor shafts (selected)" },
+        { src: "/images/smart-globe/layout-type-b.png", caption: "Type B: tangential motor shafts" },
+      ], fit: "contain" },
+      { heading: "Kinematic model" },
+      "To point the globe anywhere, we needed to know how a rotation of the globe maps to a rotation of each wheel. Each wheel touches the globe at a contact point set by the angle β = 41° from the bottom of the sphere, and the three contact points are spread 120° apart. From that we wrote a position unit vector for each contact point and a unit vector for the direction each wheel drives.",
+      { image: "/images/smart-globe/contact-geometry.jpg", caption: "Contact geometry: side view, top view of the three contact points, and the unit vectors" },
+      "A small globe rotation Δθ moves each contact point by Δθ × (R n̂ᵢ). Only the part of that movement along the wheel's drive direction turns the wheel, so we project it onto t̂ᵢ. Assuming the wheel doesn't slip, that distance equals r Δφᵢ. Stacking the three wheels together gives a single matrix equation, Δφ = (R/r) A(β) Δθ, where A(β) holds the geometry. That is the inverse kinematics: give it a globe rotation and it returns how far to turn each wheel.",
+      { image: "/images/smart-globe/kinematics.jpg", caption: "From contact-point displacement to the final inverse-kinematics mapping" },
+      { heading: "From a place to stepper commands" },
+      "The control side chains the model into five steps:",
+      { list: [
+        "Location input: a country or city name, like \"point to Japan\".",
+        "Coordinate lookup: the target's latitude and longitude.",
+        "Globe rotation: the orientation change Δθ = [Δθx, Δθy, Δθz] needed to bring that point to the reference.",
+        "Inverse kinematics: Δφ = (R/r) A(β) Δθ maps that rotation to the three wheels.",
+        "Stepper commands: each wheel angle is converted to motor steps N₁, N₂ and N₃.",
+      ] },
+      { heading: "Mechanical design" },
+      "I designed the assembly in CAD around a 10-inch, 1 lb globe sitting on three 2-inch omni wheels with TPE rollers. The motors are set in the Type A orientation, tilted so each wheel meets the globe at β = 41°. Each wheel connects to its motor shaft through a printed hexagonal coupling with a tight clearance, so there is as little backlash as possible between the motor and the wheel.",
+      { images: [
+        { src: "/images/smart-globe/assembly-cad.png", caption: "Full assembly" },
+        { src: "/images/smart-globe/wheel-stack-cad.png", caption: "Wheel, coupling and motor stack" },
+        { src: "/images/smart-globe/wheels-couplings.jpg", caption: "Omni wheels and printed hex couplings" },
+      ], fit: "contain" },
+      { heading: "Traction" },
+      "Since the globe is driven only by friction, traction sets how hard it can accelerate. With the weight shared evenly and each contact normal at β to vertical, the normal force on each wheel is N = mg / (3 cos β). The most tangential force a wheel can apply before slipping is μN, which gives a maximum torque of μN·R about the globe's center and a maximum angular acceleration of that torque over the globe's inertia. So the acceleration ceiling comes down to friction, motor torque and the globe's inertia.",
+      { image: "/images/smart-globe/free-body.png", caption: "Free-body diagram, assuming symmetric loading" },
+      { heading: "FEA and stiffness" },
+      "The kinematic model assumes every wheel touches the globe at exactly 41°. The question I wanted to answer with FEA was whether the wheel mounts flex enough under load to change that contact geometry. In the first design, the mount deflected 0.35 mm. I redesigned the bracket, and the same load brought it down to 0.14 mm.",
+      { images: [
+        { src: "/images/smart-globe/fea-before.png", caption: "Before redesign: 0.35 mm max displacement" },
+        { src: "/images/smart-globe/fea-after.png", caption: "After redesign: 0.14 mm max displacement" },
+      ], fit: "contain" },
+      { images: [
+        { src: "/images/smart-globe/bracket-before.png", caption: "Original bracket" },
+        { src: "/images/smart-globe/bracket-after.png", caption: "Redesigned bracket" },
+      ], fit: "contain" },
+      "To see what that means for accuracy, I treated the mount as rotating about its bolt with a 75 mm (3 in) lever arm, so the contact angle shifts by Δβ = atan(δ / 75 mm). The original bracket shifts β by 0.263°, and the new one by 0.105°. Carrying that through the model for a full 360° turn:",
+      { list: [
+        "Before: contact angle 40.737°, a −1.43° error per revolution, using 28.6% of the 5° error budget.",
+        "After: contact angle 40.895°, a −0.57° error per revolution, using 11.5% of the budget.",
+      ] },
+      "Cutting bracket deflection by 60% cut the predicted geometric error by about 60%, which leaves more of the ±5° budget for everything else.",
+      { heading: "Checking the dimensions" },
+      "The model was built on nominal sizes: a 10.00-inch globe and 2.00-inch wheels. When we measured the actual parts, the wheels were 1.95 inches and the globe was 9.75 inches. Using the measured wheel size alone, a commanded 360° turn would come out to 351° (−9.00°). Using the measured globe size alone, it would come out to 369.23° (+9.23°). Updating the globe measurement in the model improved positioning, and let us remove the empirical compensation we had been using to make up for it.",
+      { heading: "Calibration" },
+      "We tuned the motion against two reference moves: one full orbital rotation of the globe, and a north–south pole inversion. For each, we adjusted the commands until the globe ended up within about 5° of where it started, using a fixed pointer as the reference.",
+      { videos: [
+        { src: "/images/smart-globe/calibration-orbit.mp4", poster: "/images/smart-globe/calibration-orbit.jpg", caption: "Calibration 1: one full orbital rotation" },
+        { src: "/images/smart-globe/calibration-pole-flip.mp4", poster: "/images/smart-globe/calibration-pole-flip.jpg", caption: "Calibration 2: north–south pole inversion" },
+      ] },
+      { heading: "Results" },
+      "After calibration, a single rotation lands within about 1°, and the compounded error after 10 moves in a row stays under 5°, which meets the positioning requirement we set at the start.",
+      { heading: "Automatic homing" },
+      "Right now the globe has to be placed in a known starting position by hand. To fix that, we're splitting the globe and mounting magnets inside it, with hall-effect sensors at fixed positions in the base. At startup, the globe will turn until a sensor finds a magnet and use that as its reference. It can already find the first magnet, and next we need to check how repeatable the homing is.",
+      { image: "/images/smart-globe/homing-hall-sensors.jpg", caption: "Hall-effect sensors mounted in the base" },
+      { videos: [
+        { src: "/images/smart-globe/homing-first-magnet.mp4", poster: "/images/smart-globe/homing-first-magnet.jpg", caption: "Turning until the sensor finds the first magnet" },
+        { src: "/images/smart-globe/closed-loop-sensor.mp4", poster: "/images/smart-globe/closed-loop-sensor.jpg", caption: "Early closed-loop work: a breadboard sensor streaming orientation to a live 3D plot" },
+      ] },
+      { heading: "Next steps" },
+      { list: [
+        "Closed-loop control, so the globe can correct its own position instead of relying on calibration.",
+        "An enclosure for the base.",
+        "Long-term repeatability testing.",
+        "A laser pointer to mark the target location.",
+        "Adding weight to the globe.",
+      ] },
+      "The biggest takeaway so far is that the model is only as good as the hardware underneath it. The geometry of the mounts, friction at the wheels, and calibration all decide how closely the real globe follows the math.",
     ],
   },
   {
