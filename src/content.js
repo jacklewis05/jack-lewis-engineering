@@ -14,6 +14,7 @@ import {
   Sailboat,
   Zap,
   Globe,
+  Speaker,
 } from "lucide-react";
 
 /* ============================================================================
@@ -411,6 +412,46 @@ export const ONGOING_PROJECTS = [
       { heading: "Next steps" },
       "I've also proposed an LS-DYNA simulation of guided vs. free-fall oblique impacts, to compare against what we measure on the towers.",
       // TODO: add a "Results" section here once you have test results to share.
+    ],
+  },
+  {
+    id: "tower-speakers",
+    icon: Speaker,
+    title: "Transmission-Line Tower Speakers",
+    org: "Personal Project",
+    period: "Fall 2026",
+    category: "Audio / Woodworking",
+    description:
+      "A pair of floor-standing speakers for my living room, built around Paul Carmody's TriTrix MTM transmission-line design. I modeled my own version of the cabinet in Fusion 360 with a solid walnut front baffle, and I've CNC-routed the front baffle and cut the MDF cabinet panels.",
+    stack: ["Fusion 360", "CNC Router", "CAM", "Woodworking", "Transmission Line", "MTM"],
+    cover: {
+      image: "/images/tower-speakers/baffle.jpg",
+      caption: "The walnut front baffle straight off the CNC, with the driver recesses cut",
+    },
+    content: [
+      "I wanted a good pair of tower speakers for my living room without spending much, and I wanted to build them myself. I listen to a lot of house music, so bass extension mattered more than it would for a typical bookshelf pair. They'll be driven by my Yamaha RX-396 receiver.",
+      { heading: "Choosing the design" },
+      "I looked at designing a speaker completely from scratch, but getting a crossover right takes measurement gear and several rounds of revisions. I went with the TriTrix MTM TL, a proven kit design by Paul Carmody, so I could focus my time on the cabinet. It's an MTM layout, with a woofer above and below the tweeter, which gives more output than a single woofer. The two woofers are wired in series for a nominal 8 Ω load, which the receiver handles comfortably.",
+      "The cabinet is a tapered transmission line: the back wave from the woofers travels down a folded path inside the tower before it exits near the floor. That gets deeper bass out of small woofers than a sealed box of the same size would.",
+      { heading: "Cabinet CAD" },
+      "I modeled the cabinet in Fusion 360. The front baffle is solid walnut, and the sides, back and internal panels are MDF, which is dense and cheap and doesn't ring. Inside, an angled divider and the panels at the bottom form the folded line, and two shelves brace the side walls.",
+      { images: [
+        { src: "/images/tower-speakers/render-interior.jpg", caption: "With one side removed, showing the transmission line and bracing" },
+        { src: "/images/tower-speakers/render-closed.jpg", caption: "The assembled tower" },
+      ], fit: "contain" },
+      { heading: "Machining" },
+      "I cut the walnut baffle on a CNC router. Each driver opening has a stepped recess around it, so the driver flanges sit flush with the front face, which reduces diffraction off the edges. I also cut the MDF panels for the cabinet, including the stepped edges where the panels join.",
+      { videos: [
+        { src: "/images/tower-speakers/cnc-baffle.mp4", poster: "/images/tower-speakers/cnc-baffle.jpg", caption: "Routing the driver recesses in the walnut baffle" },
+      ] },
+      { image: "/images/tower-speakers/parts.jpg", caption: "The walnut baffle and cut MDF panels, ready for assembly" },
+      { heading: "Next steps" },
+      { list: [
+        "Glue up the cabinets and line the transmission line with damping material.",
+        "Build the crossovers and wire in the drivers.",
+        "Finish the walnut and paint the MDF.",
+        "Measure the finished speakers and pair them with a subwoofer for the lowest bass.",
+      ] },
     ],
   },
 ];
