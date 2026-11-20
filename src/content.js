@@ -1,4 +1,5 @@
 import {
+  HardHat,
   Egg,
   Gift,
   Car,
@@ -72,6 +73,7 @@ export const EXPERIENCE = [
       "Conducted instrumented helmet testing using VICON motion capture, Hybrid III sensors, load cells, and DAS, measuring linear and rotational acceleration and velocity during impact.",
       "Processed and visualized experimental data in MATLAB, compared head-response metrics across test configurations, and presented findings to faculty.",
     ],
+    projects: ["helmet-impact-rigs"],
     stack: ["SolidWorks", "FEA", "MATLAB", "VICON", "Hybrid III", "3D Printing"],
   },
   {
@@ -331,6 +333,29 @@ export const ONGOING_PROJECTS = [
         "Adding weight to the globe.",
       ] },
       "The biggest takeaway so far is that the model is only as good as the hardware underneath it. The geometry of the mounts, friction at the wheels, and calibration all decide how closely the real globe follows the math.",
+    ],
+  },
+  {
+    id: "helmet-impact-rigs",
+    icon: HardHat,
+    title: "Motorcycle Helmet Impact Test Rigs",
+    org: "Center for Applied Biomechanics · UVA",
+    period: "May 2026 — Present",
+    category: "Research",
+    description:
+      "Undergraduate research on motorcycle helmet impact testing. I design test rigs that can run the same helmet through the conditions different international standards use, and push past them to higher speeds and more impact angles.",
+    stack: ["SolidWorks", "ANSYS Mechanical", "MATLAB", "3D Printing", "Hybrid III"],
+    content: [
+      "Most motorcycle helmet standards test a helmet at one fairly low speed, around 30 km/h, while most real crashes are oblique and happen across a much wider range of speeds. Each standard also sets up its test a little differently, which makes it hard to compare how the same helmet would do under each one. My work is building rigs that make that comparison possible.",
+      { heading: "What I work on" },
+      { list: [
+        "Drop towers that compare international helmet standards, including a 3D printed guided free-fall basket so the same tower can run guided and free-fall oblique impacts.",
+        "An inverted pendulum that simulates rider rotation. A gravity-only pendulum on an 8 ft arm tops out near 8.5 m/s, so I designed an elastic-cord-powered version targeting 12 m/s.",
+        "A 3D printed torso and shoulder surrogate that attaches to a Hybrid III 50th-percentile male head and neck, to study how the shoulders change head motion in a crash.",
+        "FEA in ANSYS Mechanical on the pendulum frame under a 50 G load, plus machine-shop drawings for the parts.",
+        "Instrumented testing with VICON motion capture, Hybrid III sensors, load cells and a data acquisition system, with the data processed in MATLAB.",
+      ] },
+      "Since this is ongoing lab research, I'm not sharing photos, videos or results here. I'm happy to walk through the design work in a conversation.",
     ],
   },
   {
