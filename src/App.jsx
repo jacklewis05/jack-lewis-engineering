@@ -12,7 +12,7 @@ import { scrollToSection } from "./components/shared";
 const ALL_PROJECTS = [...ONGOING_PROJECTS, ...COMPLETED_PROJECTS];
 
 // Project pages live at #project/<id>, and a section of a project page at
-// #project/<id>/<section>, e.g. #project/helmet-impact-rigs/fea.
+// #project/<id>/<section>, e.g. #project/smart-globe/kinematics.
 // Hash links work on GitHub Pages without any server setup.
 function useHash() {
   const [hash, setHash] = useState(() => window.location.hash);
